@@ -7,7 +7,7 @@ import play.mvc.Results.*;
 import play.mvc.Results.Chunks;
 
 import views.html.*;
-
+import play.libs.*;
 import models.*;
 import java.util.*;
 
@@ -16,21 +16,18 @@ import java.util.*;
 public class Application extends Controller {
 
 
-    public static Result index() {
-        return ok(index.render("live stream"));
-    }
+	public static Result index() {
+		return ok(index.render("live stream"));
+	}
 
 	public static Result liveUpdate() {	
   		// Prepare a chunked text stream
-		Chunks<String> chunks = new StringChunks() {
-
-    		// Called when the stream is ready
-			public void onReady(Chunks.Out<String> out) { 
-				ExpeditedOrders.registerChunkOut(out);
+		Comet comet = new Comet("parent.cometMessage") { 
+			public void onConnected() {  
+				ExpeditedOrders.registerChunkOut(this);
 			}
-
 		};
-		response().setContentType("text/html;charset=UTF-8");
-		return ok(chunks);
+		return ok(comet);
+		
 	}
 }

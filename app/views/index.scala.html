@@ -1,5 +1,11 @@
 @(message: String)
 @main("COMET") {
+<script type="text/javascript"> 
+	  var cometMessage = function(event) {  
+	    console.log('Received event: ' + event)
+	    $("#container").append("<li><a href='#'>" + event + "</a></li>") 
+	  }
+</script>
 <div class="hero-unit">
   <h1>Current Orders</h1>
   <p>Prepare them all!</p>

@@ -27,8 +27,8 @@ import static java.util.concurrent.TimeUnit.*;
 
 public class ExpeditedOrders extends UntypedActor {
 
-	static List<Chunks.Out<String>> outs = 
-                     new ArrayList<Chunks.Out<String>>(); 
+	static List<Comet> comets = 
+                     new ArrayList<Comet>(); 
 
 	
 	static ActorRef defaultActor = Akka.system().actorOf(new Props(ExpeditedOrders.class));
@@ -44,17 +44,15 @@ public class ExpeditedOrders extends UntypedActor {
 		);
 	}
 
-	public static void registerChunkOut(Chunks.Out<String> out) {
-		ExpeditedOrders.outs.add(out);
+	public static void registerChunkOut(Comet out) {
+		ExpeditedOrders.comets.add(out);
 	}
 
 	public void onReceive(Object message) throws Exception {
 		Order order = (Order)message;
-		Logger.info("Writing " + order);
-		for(Chunks.Out<String> out: outs) {
-		   out.write("<script type=\"text/javascript\">" +
-     "parent.jQuery('#container').append('<li><a href=\"#\">" +
-     order.toString() + "</a></li>');</script>"); 
-		} 
+		for(Comet comet: comets) {
+     		 comet.sendMessage(order.toString()); 
+    	}
+
 	}
 }
