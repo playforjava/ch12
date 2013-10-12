@@ -52,8 +52,9 @@ public class ExpeditedOrders extends UntypedActor {
 		Order order = (Order)message;
 		Logger.info("Writing " + order);
 		for(Chunks.Out<String> out: outs) {
-		  out.write("<p>" +
-     	   order.toString() + "</p>"); 
+		   out.write("<script type=\"text/javascript\">" +
+     "parent.jQuery('#container').append('<li><a href=\"#\">" +
+     order.toString() + "</a></li>');</script>"); 
 		} 
 	}
 }

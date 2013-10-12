@@ -26,9 +26,6 @@ public class Application extends Controller {
 
     		// Called when the stream is ready
 			public void onReady(Chunks.Out<String> out) { 
-				char[] buffer = new char[1024 * 5];
-				Arrays.fill(buffer, ' ');
-				out.write(new String(buffer));
 				ExpeditedOrders.registerChunkOut(out);
 			}
 

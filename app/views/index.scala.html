@@ -1,10 +1,11 @@
 @(message: String)
-@main("live streaming") {
-    
-    
-   <p>
+@main("COMET") {
+<div class="hero-unit">
+  <h1>Current Orders</h1>
+  <p>Prepare them all!</p>
+</div>
+	<iframe style="display:none" id="messages" 
+      src="@routes.Application.liveUpdate.unique"></iframe> 
+    <ul id="container" style=" text-align:center" class="nav nav-tabs nav-stacked"></ul>
 
-    <iframe id="messages" style="width:100%;height:100%" src="@routes.Application.liveUpdate()"></iframe>
-
-    </p>
 }
