@@ -101,10 +101,6 @@ public class Product extends Model implements PathBindable<Product>,
     return String.format("%s - %s", ean, name);
   }
 
-  // public static List<Product> findAll() {
-  //   return find.all();
-  // }
-
   public static Page<Product> find(int page) {
     return 
             find.where()

@@ -1,0 +1,10 @@
+@(reports: List[models.Report])
+
+@main("Reports") {
+<h2>Reports</h2>
+<ul>    
+     @for(report <- reports) {
+     	<li><b>@report</b> ready to be downloaded <a href="#">here</a></li>
+     }
+</ul>
+}
