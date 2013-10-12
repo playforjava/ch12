@@ -1,7 +1,10 @@
 @(message: String)
+@main("live streaming") {
+    
+    
+   <p>
 
-@main("Welcome to Play 2.1") {
-    
-    @play20.welcome(message, style = "Java")
-    
+    <iframe id="messages" style="width:100%;height:100%" src="@routes.Application.liveUpdate()"></iframe>
+
+    </p>
 }

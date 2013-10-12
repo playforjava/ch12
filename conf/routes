@@ -11,6 +11,9 @@ GET  /products/:ean        controllers.Products.details(ean: models.Product)
 DELETE      /products/:ean               controllers.Products.delete(ean: String)
 GET  /picture/:ean         controllers.Products.picture(ean)
 
+GET     /live   controllers.Application.index() 
+GET  /live-update        controllers.Application.liveUpdate()
+
 GET  /stockitems/          controllers.StockItems.index()
 GET  /reports/             controllers.Reports.index()
 
