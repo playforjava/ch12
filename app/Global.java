@@ -19,9 +19,9 @@ import models.*;
 public class Global extends GlobalSettings {
 
    @Override
-    public <T extends EssentialFilter> Class<T>[] filters() { 
-        Class[] filters = {CSRFFilter.class}; 
-        return filters;
+    public <T extends EssentialFilter> Class<T>[] filters() {
+      Class[] filters={CSRFFilter.class,BasicAuthenticationFilter.class};
+      return filters;
     }
     
     public void onStart(Application app) {
