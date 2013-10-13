@@ -6,7 +6,8 @@ libraryDependencies ++= Seq(
   javaJdbc,
   javaEbean,
   cache,
-  "com.google.guava" % "guava" % "14.0"
+  "com.google.guava" % "guava" % "14.0",
+  filters
 )     
 
 play.Project.playJavaSettings

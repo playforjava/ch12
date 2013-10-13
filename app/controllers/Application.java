@@ -12,6 +12,8 @@ import models.*;
 import java.util.*;
 
 
+import play.libs.F.*;
+
 
 public class Application extends Controller {
 
@@ -20,14 +22,31 @@ public class Application extends Controller {
 		return ok(index.render("live stream"));
 	}
 
-	public static Result liveUpdate() {	
-  		// Prepare a chunked text stream
-		Comet comet = new Comet("parent.cometMessage") { 
-			public void onConnected() {  
-				ExpeditedOrders.registerChunkOut(this);
+	public static WebSocket<String> liveUpdate() {
+		return new WebSocket<String>() {  
+
+    		// Called when the WebSocket Handshake is done.
+			public void onReady(final WebSocket.In<String> in, 
+				final WebSocket.Out<String> out) {  
+
+      			// For each event received on the socket,
+				in.onMessage(new Callback<String>() {  
+					public void invoke(String event) {
+						ExpeditedOrders.notifyOthers(out, event 
+       + " is being processed");
+					} 
+				});
+
+			    // When the socket is closed.
+				in.onClose(new Callback0() { 
+					public void invoke() {
+						ExpeditedOrders.unregister(out);
+					}
+				});
+
+				ExpeditedOrders.register(out); 
+      			
 			}
 		};
-		return ok(comet);
-		
 	}
 }

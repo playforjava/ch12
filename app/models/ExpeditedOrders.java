@@ -22,15 +22,18 @@ import scala.concurrent.duration.*;
 import akka.actor.*;
 import akka.dispatch.*;
 
+import play.mvc.*;
+import play.libs.*;
+import play.libs.F.*;
+
 
 import static java.util.concurrent.TimeUnit.*;
 
 public class ExpeditedOrders extends UntypedActor {
 
-	static List<Comet> comets = 
-                     new ArrayList<Comet>(); 
+static List<WebSocket.Out<String>> members 
+    = new ArrayList<WebSocket.Out<String>>(); 
 
-	
 	static ActorRef defaultActor = Akka.system().actorOf(new Props(ExpeditedOrders.class));
 
 	static {
@@ -41,18 +44,34 @@ public class ExpeditedOrders extends UntypedActor {
 			new Order(),
 			Akka.system().dispatcher(),
 			null
-		);
+			);
 	}
 
-	public static void registerChunkOut(Comet out) {
-		ExpeditedOrders.comets.add(out);
+	public static void register(WebSocket.Out<String> out) {
+		members.add(out);
 	}
 
-	public void onReceive(Object message) throws Exception {
+	public static void unregister(WebSocket.Out<String> out) {
+		members.remove(out);
+	}
+
+	public static void notifyOthers(WebSocket.Out<String> me, 
+		String event) { 
+		for(WebSocket.Out<String> out: members) {
+			if (!out.equals(me))
+				out.write(event);
+		}
+	}
+
+	public static void notifyAll(String event) { 
+		for(WebSocket.Out<String> out: members) {
+			out.write(event);
+		}
+	}
+
+	public void onReceive(Object message) 
+	throws Exception { 
 		Order order = (Order)message;
-		for(Comet comet: comets) {
-     		 comet.sendMessage(order.toString()); 
-    	}
-
+		notifyAll(order.toString());
 	}
 }

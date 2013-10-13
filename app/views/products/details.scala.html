@@ -4,7 +4,7 @@
 
 @main("Product form") {
   <h1>Product form</h1>
-  @helper.form(action = routes.Products.save(), 'enctype -> "multipart/form-data") {
+  @helper.form(action = helper.CSRF(routes.Products.save()), 'enctype -> "multipart/form-data") {
     <fieldset>
       <legend>Product (@productForm("name").valueOr("New"))</legend>
       <input type="hidden" value="@productForm("id").valueOr("")" name="id"/>

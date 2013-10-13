@@ -10,11 +10,19 @@ import java.util.Locale;
 import utils.*;
 
 import com.avaje.ebean.*;
+import play.api.mvc.EssentialFilter;
+import play.filters.csrf.CSRFFilter;
 
 import models.*;
 
 
 public class Global extends GlobalSettings {
+
+   @Override
+    public <T extends EssentialFilter> Class<T>[] filters() { 
+        Class[] filters = {CSRFFilter.class}; 
+        return filters;
+    }
     
     public void onStart(Application app) {
         // Register our DateFormater

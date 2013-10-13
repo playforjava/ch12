@@ -1,17 +1,31 @@
 @(message: String)
 @main("COMET") {
-<script type="text/javascript"> 
-	  var cometMessage = function(event) {  
-	    console.log('Received event: ' + event)
-	    $("#container").append("<li><a href='#'>" + event + "</a></li>") 
-	  }
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+   var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket
+   var socket 
+     = new WS("@routes.Application.liveUpdate.webSocketURL(request)") 
+    	
+    	var sendMessage = function() {  
+    		socket.send($(this).text())
+            $(this).css("background-color", "#EEE")
+    	}
+    	var receiveEvent = function(event) {  
+    		var a = $("<li><a href='#'>" + event.data + "</a></li>")
+    		$("#container").append(a)
+    		if (event.data.match(/processed/g)) { 
+				a.css("background-color", "#EEE")
+     		} else {
+     			a.click(sendMessage)
+     		}
+    	}
+    	socket.onmessage = receiveEvent
+ });
 </script>
 <div class="hero-unit">
   <h1>Current Orders</h1>
   <p>Prepare them all!</p>
 </div>
-	<iframe style="display:none" id="messages" 
-      src="@routes.Application.liveUpdate.unique"></iframe> 
-    <ul id="container" style=" text-align:center" class="nav nav-tabs nav-stacked"></ul>
+	<ul id="container" style=" text-align:center" class="nav nav-tabs nav-stacked"></ul>
 
 }

@@ -1,4 +1,4 @@
-Chapter 9.2: Handling asynchronous data
+Chapter 10.1: Cross-Site Request Forgery 
 =========================
 
-This is the sample code for chapter nine of [Play for Java](http://bit.ly/playjava).
+This is the sample code for chapter ten of [Play for Java](http://bit.ly/playjava).
