@@ -5,6 +5,8 @@ import play.*;
 import play.mvc.*;
 import play.mvc.Results.*;
 import play.mvc.Results.Chunks;
+import play.data.Form;
+import static play.data.Form.form;
 
 import views.html.*;
 import play.libs.*;
@@ -18,8 +20,34 @@ import play.libs.F.*;
 public class Application extends Controller {
 
 
+	public static class Login {
+		public String email;
+		public String password;
+	}
+
 	public static Result index() {
 		return ok(index.render("live stream"));
+	}
+
+	public static Result login() {
+		return ok(
+			login.render(form(Login.class))
+			);
+	}
+
+	public static Result authenticate() {  
+		Form<Login> loginForm = form(Login.class)
+		.bindFromRequest();       
+		String email = loginForm.get().email;    
+		String password = loginForm.get().email; 
+		if (User.authenticate(email, password) == null){ 
+			return badRequest("invalid password"); 
+		}
+		session().clear(); 
+		session("email", email); 
+		return redirect(
+			routes.Products.index()  
+			);
 	}
 
 	public static WebSocket<String> liveUpdate() {
@@ -33,7 +61,7 @@ public class Application extends Controller {
 				in.onMessage(new Callback<String>() {  
 					public void invoke(String event) {
 						ExpeditedOrders.notifyOthers(out, event 
-       + " is being processed");
+							+ " is being processed");
 					} 
 				});
 
@@ -45,7 +73,7 @@ public class Application extends Controller {
 				});
 
 				ExpeditedOrders.register(out); 
-      			
+
 			}
 		};
 	}

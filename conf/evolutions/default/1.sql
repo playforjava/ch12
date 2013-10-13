@@ -2,6 +2,13 @@
   
 # --- !Ups
 
+create table user (
+  id                        bigint not null,
+  email                     varchar(255),
+  password                  varchar(255),
+  constraint pk_user primary key (id))
+;
+
 create table address (
   id                        bigint not null,
   street                    varchar(255),
@@ -50,6 +57,9 @@ create table product_tag (
   tag_id                         bigint not null,
   constraint pk_product_tag primary key (product_id, tag_id))
 ;
+
+create sequence user_seq start with 100;
+
 create sequence address_seq start with 100;
 
 create sequence product_seq start with 100;
@@ -77,6 +87,8 @@ alter table product_tag add constraint fk_product_tag_tag_02 foreign key (tag_id
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
+drop table if exists user;
+
 drop table if exists address;
 
 drop table if exists product;
@@ -90,6 +102,8 @@ drop table if exists tag;
 drop table if exists warehouse;
 
 SET REFERENTIAL_INTEGRITY TRUE;
+
+drop sequence if exists user_seq;
 
 drop sequence if exists address_seq;
 

@@ -17,5 +17,8 @@ GET  /live-update        controllers.Application.liveUpdate()
 GET  /stockitems/          controllers.StockItems.index()
 GET  /reports/             controllers.Reports.index()
 
+GET  /login        controllers.Application.login()
+POST /authenticate controllers.Application.authenticate()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
