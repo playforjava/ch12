@@ -1,4 +1,4 @@
-Chapter 10.3: Fine-grained authentication with action composition 
+Chapter 12: Testing your application
 =========================
 
 This is the sample code for chapter ten of [Play for Java](http://bit.ly/playjava).
