@@ -34,7 +34,10 @@ public class User extends Model {
 // Should be something like
 // return finder.where().eq("email", email)
 //   .eq("password", password).findUnique();
-      return new User("nicolas", "nicolas");
+      if ("nicolas".equals(email) && "nicolas".equals(password))
+        return new User("nicolas", "nicolas");
+      else
+        return null;
   }
 
   public static Finder<Long, User> finder

@@ -41,7 +41,7 @@ public class Application extends Controller {
 		String email = loginForm.get().email;    
 		String password = loginForm.get().email; 
 		if (User.authenticate(email, password) == null){ 
-			return badRequest("invalid password"); 
+			return forbidden("invalid password"); 
 		}
 		session().clear(); 
 		session("email", email); 
